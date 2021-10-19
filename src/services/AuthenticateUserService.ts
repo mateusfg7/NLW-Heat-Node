@@ -3,7 +3,7 @@ import axios from 'axios'
 /**
  * X Receber code(string)
  * X Recuperar o access_token no github
- * Recuperar infos do user no github
+ * X Recuperar infos do user no github
  * Verificar se o usuário existe no banco de dados
  * --- SIM = Gera um token
  * --- NÃO = Cria no DB, gera um token
@@ -12,6 +12,13 @@ import axios from 'axios'
 
 interface IAccessTokenResponse {
   access_token: string
+}
+
+interface IUserResponse {
+  avatar_url: string,
+  login: string,
+  id: number,
+  name: string
 }
 
 class AuthenticateUserService {
@@ -29,7 +36,13 @@ class AuthenticateUserService {
       }
     })
 
-    return accessTokenResponse.access_token
+    const response = await axios.get<IUserResponse>("https://api.github.com/user", {
+      headers: {
+        authorization: `Bearer ${accessTokenResponse.access_token}`
+      }
+    })
+
+    return response.data
   }
 }
 
