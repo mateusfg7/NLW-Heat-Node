@@ -1,5 +1,11 @@
+# dependencies
 node_modules
-.vscode
+
+# project
 .env
 .env.*
 !.env.example
+*.db*
+
+# editor
+.vscode
